@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0d0c0c">
+    android:background="#4a7eb2">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-        android:background="#ffff"
+        android:background="#123963"
         android:orientation="vertical"
         android:layout_margin="8dp">
 
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/tv"
-                android:textColor="#212120"
+                android:textColor="#ffffff"
                 android:textSize="40dp"
                 android:layout_gravity="center"
                 android:typeface="serif"

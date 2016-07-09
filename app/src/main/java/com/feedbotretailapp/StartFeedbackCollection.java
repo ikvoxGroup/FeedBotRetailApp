@@ -63,11 +63,11 @@ public class StartFeedbackCollection extends Activity {
         next = (ImageView) findViewById(R.id.next);
         a1.setText("GO");
         next.setVisibility(View.INVISIBLE);
-        QLIST = new ArrayList<String>();
-        QOPTION = new ArrayList<String>();
-        QFOCUSKEYWORD = new ArrayList<String>();
-        QRESULT = new ArrayList<String>();
-        GRAPHVALUE = new ArrayList<String>();
+        QLIST = new ArrayList<>();
+        QOPTION = new ArrayList<>();
+        QFOCUSKEYWORD = new ArrayList<>();
+        QRESULT = new ArrayList<>();
+        GRAPHVALUE = new ArrayList<>();
 
         ResultsSharedpreferences = getSharedPreferences(APP_QUERY_RESULTS, Context.MODE_PRIVATE);
         QuerySharedpreferences = getSharedPreferences(APP_QUERY, Context.MODE_PRIVATE);
@@ -261,12 +261,13 @@ public class StartFeedbackCollection extends Activity {
 
             SeekBar sb = new SeekBar(getApplicationContext());
             sb.setMax(10);
+            sb.setBackgroundColor(Color.rgb(255, 255, 255));
             LinearLayout.LayoutParams sbparam = new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
 
             final TextView textView = new TextView(getApplicationContext());
             textView.setText("0");
             textView.setTextSize(23);
-            textView.setTextColor(Color.rgb(33, 33, 32));
+          //  textView.setTextColor(Color.rgb(33, 33, 32));
             textView.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams textParam = new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
             textParam.setMargins(10, 10, 10, 10);
@@ -329,7 +330,7 @@ public class StartFeedbackCollection extends Activity {
             final TextView textView = new TextView(getApplicationContext());
             textView.setText("0");
             textView.setTextSize(23);
-            textView.setTextColor(Color.rgb(33, 33, 32));
+            //textView.setTextColor(Color.rgb(33, 33, 32));
             textView.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams textParam = new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
             textParam.setMargins(10, 40, 10, 20);
