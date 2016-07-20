@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     UserSessionManager session;
     JSONParser jParser = new JSONParser();
     JSONObject json;
-    private static String url_login = "http://ikvoxserver.78kuyxr39b.us-west-2.elasticbeanstalk.com/feedbacklogin.do";
+    private static String url_login = "http://feedbotappserver.cgihum6dcd.us-west-2.elasticbeanstalk.com/feedbacklogin.do";
 
     String email=null;
     String companyName=null;

@@ -66,7 +66,7 @@ public class FeedbackActivity extends Activity {
 
     JSONParser jParser = new JSONParser();
     JSONObject json;
-    private static String url_getQuery = "http://ikvoxserver.78kuyxr39b.us-west-2.elasticbeanstalk.com/RetriveQueryForTablet.do";
+    private static String url_getQuery = "http://feedbotappserver.cgihum6dcd.us-west-2.elasticbeanstalk.com/RetriveQueryForTablet.do";
     //String Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Qo1,Qo2,Qo3,Qo4,Qo5,Qo6,Qo7,Qo8,Qo9,Qo10;
 
     View progressOverlay;

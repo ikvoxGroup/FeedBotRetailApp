@@ -67,7 +67,7 @@ public class Contact extends Activity {
 
     JSONParser jParser = new JSONParser();
     JSONObject json;
-    private static String url_getQuery = "http://ikvoxserver.78kuyxr39b.us-west-2.elasticbeanstalk.com/FeedbackDataBucket.do";
+    private static String url_getQuery = "http://feedbotappserver.cgihum6dcd.us-west-2.elasticbeanstalk.com/FeedbackDataBucket.do";
     static String good="",bad="",negative="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
