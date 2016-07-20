@@ -62,6 +62,7 @@ public class Contact extends Activity {
     ArrayList<String> Query,result,GraphValue;
 
     View progressOverlay;
+    View CouponOverlay;
     int c1,c0;
 
     JSONParser jParser = new JSONParser();
@@ -74,6 +75,7 @@ public class Contact extends Activity {
 
         setContentView(R.layout.contact_page);
         progressOverlay = findViewById(R.id.progress_overlay);
+        CouponOverlay= findViewById(R.id.coupon_overlay);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         bot=(LinearLayout)findViewById(R.id.bot);
@@ -138,7 +140,8 @@ public class Contact extends Activity {
 
         //Add a character every 150ms
         writer.setCharacterDelay(100);
-        writer.animateText("Thank you for your valuable feedback ! \n" +
+        writer.animateText("Thank you for your valuable feedback !  \n" +
+                "A coupon code has been allocated to you. To avail the code please provide us your mail id. \n"+
                 "As the brand owner, we are happy that you found our "+good+" as good "+bad+".\n" +
                 "To help  improve our services please leave comment below. I personally assure you that my team will work on it.");
        /* I can see you found our p1 as bad and*/
@@ -160,7 +163,13 @@ public class Contact extends Activity {
                 contactDetails[j]="empty";
             }
         }
-        new MyTask().execute();
+        if (contactDetails[0].contains("@") && contactDetails[0].contains("."))
+        {
+            new CouponTask().execute();
+        }
+        else {
+            new MyTask().execute();
+        }
     }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -255,6 +264,110 @@ public class Contact extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+            if (c1 == 1) {
+
+                Toast.makeText(Contact.this, "---Failed--- Retry Please or Check your Network Connection", Toast.LENGTH_SHORT).show();
+            } else if (c0 == 1)
+            {
+                //  Toast.makeText(FeedbackActivity.this, "Welcome : "+UName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Contact.this,"No query found", Toast.LENGTH_SHORT).show();
+            }
+
+            super.onPostExecute(aVoid);
+        }
+    }
+    private class CouponTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            AndroidUtils.animateView(CouponOverlay, View.VISIBLE, 1.0f, 200);
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    /*gson = new Gson();
+                    Query = gson.fromJson(QuerySharedpreferences.getString(QS,null), ArrayList.class);
+                    result=gson.fromJson(ResultsSharedpreferences.getString(queary1result,null), ArrayList.class);
+                    GraphValue=gson.fromJson(GraphValueSharedpreferences.getString(GV, null), ArrayList.class);*/
+
+
+                    String CName=userDetailsSharedPreference.getString(companykey, "na");
+                    String BName=userDetailsSharedPreference.getString(branch, "na");
+
+                    //   String mob=app.getString(KEY_NAME,null);
+                    ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+                    // postParameters.add(new BasicNameValuePair("mob", mob));
+                    postParameters.add(new BasicNameValuePair("companyname",CName ));
+                    postParameters.add(new BasicNameValuePair("branchname",BName ));
+                    // postParameters.add(new BasicNameValuePair("dateID", dateID));
+                    //postParameters.add(new BasicNameValuePair("date", date));
+
+                    postParameters.add(new BasicNameValuePair("email", contactDetails[0]));
+                    postParameters.add(new BasicNameValuePair("phone", contactDetails[1]));
+                    postParameters.add(new BasicNameValuePair("suggestion", contactDetails[2]));
+
+                    postParameters.add(new BasicNameValuePair("Query",QuerySharedpreferences.getString(QS,null)));
+                    postParameters.add(new BasicNameValuePair("quearyOption",QuerySharedpreferences.getString(QT,null)));
+                    postParameters.add(new BasicNameValuePair("QueryResult", ResultsSharedpreferences.getString(queary1result,null)));
+
+                    postParameters.add(new BasicNameValuePair("QueryResultGraph", GraphValueSharedpreferences.getString(GV, null)));
+                    json = jParser.makeHttpRequest(url_getQuery, "POST", postParameters);
+                    String s = null;
+
+                    try {
+
+                        s= json.getString("status");
+
+                        resp=s;
+                    } catch (JSONException e ) {
+                        e.printStackTrace();
+                        errorMsg = e.getMessage();
+                    }catch (Exception e ) {
+                        e.printStackTrace();
+
+                        errorMsg = e.getMessage();
+                    }
+
+                }
+            }).start();
+            try {
+                Thread.sleep(3000);
+                /**
+                 * Inside the new thread we cannot update the main thread So
+                 * updating the main thread outside the new thread
+                 */
+                // Toast.makeText(LoginActivity.this, resp, Toast.LENGTH_LONG).show();
+                if (resp.equals("success")) {
+
+                    Intent intent = new Intent(Contact.this, ThankyouActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+                    Intent intent = new Intent(Contact.this, ThankyouActivity.class);
+                    startActivity(intent);
+                    finish();
+                    c1 = 1;
+                    // Toast.makeText(FeedbackActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // Toast.makeText(Login_Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Contact.this, ThankyouActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            AndroidUtils.animateView(CouponOverlay, View.GONE, 0, 200);
             if (c1 == 1) {
 
                 Toast.makeText(Contact.this, "---Failed--- Retry Please or Check your Network Connection", Toast.LENGTH_SHORT).show();

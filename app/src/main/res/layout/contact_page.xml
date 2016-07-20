@@ -142,4 +142,5 @@
         </LinearLayout>
     </LinearLayout>
     <include layout="@layout/progbar"/>
+    <include layout="@layout/coupon_overlay"/>
 </RelativeLayout>
