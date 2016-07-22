@@ -1,9 +1,11 @@
 package com.feedbotretailapp;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -37,6 +39,8 @@ public class ThankyouActivity extends Activity{
     JSONObject json;
     private static String url_setResult = "http://feedbotappserver.cgihum6dcd.us-west-2.elasticbeanstalk.com/SetResults.do";
     String Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Qo1,Qo2,Qo3,Qo4,Qo5,Qo6,Qo7,Qo8,Qo9,Qo10;
+    public static MyDatabase db;
+    public static SQLiteDatabase sdb;
 
    // View progressOverlay;
     int c1,c0;
@@ -61,6 +65,7 @@ public class ThankyouActivity extends Activity{
 
         c1 = 0;c0=0;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        db= new MyDatabase(this);
 
         storeResult=new String[10];
 
@@ -178,6 +183,20 @@ public class ThankyouActivity extends Activity{
                     finish();
 
                 } else {
+                    sdb= getApplicationContext().openOrCreateDatabase(MyDatabase.DBNAME,MODE_PRIVATE,null);
+                    sdb.execSQL("CREATE TABLE IF NOT EXISTS Query (Query1 TEXT, Query2 TEXT, Query3 TEXT, Query4 TEXT, Query5 TEXT, Query6 TEXT,Query7 TEXT, Query8 TEXT,Query9 TEXT,Query10 TEXT);");
+                    ContentValues value = new ContentValues();
+                    value.put("Query1", storeResult[0]);
+                    value.put("Query2", storeResult[1] );
+                    value.put("Query3", storeResult[2]);
+                    value.put("Query4", storeResult[3]);
+                    value.put("Query5", storeResult[4]);
+                    value.put("Query6", storeResult[5] );
+                    value.put("Query7", storeResult[6]);
+                    value.put("Query8", storeResult[7]);
+                    value.put("Query9", storeResult[8] );
+                    value.put("Query10", storeResult[9]);
+                    sdb.insert("Query",null, value);
                     c1 = 1;
                     // Toast.makeText(FeedbackActivity.this, "failed", Toast.LENGTH_SHORT).show();
                 }

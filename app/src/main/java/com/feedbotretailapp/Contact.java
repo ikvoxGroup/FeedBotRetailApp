@@ -1,9 +1,11 @@
 package com.feedbotretailapp;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -69,6 +71,8 @@ public class Contact extends Activity {
     JSONObject json;
     private static String url_getQuery = "http://feedbotappserver.cgihum6dcd.us-west-2.elasticbeanstalk.com/FeedbackDataBucket.do";
     static String good="",bad="",negative="";
+    public static MyDatabase db;
+    public static SQLiteDatabase sdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +83,8 @@ public class Contact extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         bot=(LinearLayout)findViewById(R.id.bot);
+        db = new MyDatabase(getApplicationContext());
+        sdb= db.getWritableDatabase();
         contactEditText = new EditText[3];
         contactDetails = new String[3];
         ResultsSharedpreferences   = getSharedPreferences(APP_GRAPHVALUE, Context.MODE_PRIVATE);
@@ -349,6 +355,17 @@ public class Contact extends Activity {
                     finish();
 
                 } else {
+                    sdb= getApplicationContext().openOrCreateDatabase(MyDatabase.DBNAME,MODE_PRIVATE,null);
+                    sdb.execSQL("CREATE TABLE IF NOT EXISTS Result (email TEXT, phone TEXT, suggestion TEXT, Query TEXT, quearyOption TEXT, QueryResult TEXT,QueryResultGraph TEXT);");
+                    ContentValues value = new ContentValues();
+                    value.put("email", contactDetails[0]);
+                    value.put("phone", contactDetails[1] );
+                    value.put("suggestion", contactDetails[2]);
+                    value.put("Query", QuerySharedpreferences.getString(QS,null));
+                    value.put("quearyOption", QuerySharedpreferences.getString(QT,null));
+                    value.put("QueryResult", ResultsSharedpreferences.getString(queary1result,null) );
+                    value.put("QueryResultGraph", GraphValueSharedpreferences.getString(GV, null));
+                    sdb.insert("Result",null, value);
                     Intent intent = new Intent(Contact.this, ThankyouActivity.class);
                     startActivity(intent);
                     finish();
